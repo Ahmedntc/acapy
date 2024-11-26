@@ -7,14 +7,19 @@
         "context": "..",
         "args": {
           "VARIANT": "3.12-bullseye",
-          "POETRY_VERSION": "1.7.1"
+          "POETRY_VERSION": "1.7.1",
+          "NODE_VERSION": "20" // Added Node.js version argument
         }
     },
     "customizations": {
         "vscode": {
             "extensions": [
               "ms-python.python",
-              "charliermarsh.ruff"
+              "charliermarsh.ruff",
+              "dbaeumer.vscode-eslint",         // For JavaScript/TypeScript linting
+              "esbenp.prettier-vscode",         // Code formatter
+              "ms-vscode.vscode-typescript-tslint-plugin", // TypeScript support
+              "msjsdiag.debugger-for-chrome"    // Debugger for Chrome
             ],
             "settings": {
                 "python.testing.pytestArgs": [
@@ -40,7 +45,16 @@
                 },
                 "ruff.fixAll": true,
                 "ruff.format.args": ["--config=./pyproject.toml"],
-                "ruff.lint.args": ["--config=./pyproject.toml"]
+                "ruff.lint.args": ["--config=./pyproject.toml"],
+                "[javascript]": {
+                    "editor.formatOnSave": true,
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[typescript]": {
+                    "editor.formatOnSave": true,
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"]
             }
         }
     },
@@ -48,6 +62,7 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-in-docker:2": {}
     },
+    "forwardPorts": [8000, 8001, 3000], // Exposed frontend port 3000
     
     // Comment out to connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
     "remoteUser": "vscode",
@@ -57,7 +72,11 @@
         //"PATH": "${containerEnv:PATH}:${workspaceRoot}/.venv/bin"
     },
     
-    "mounts": [],
+    "mounts": [
+        "source=${localWorkspaceFolder}/../frontend,target=/workspaces/frontend,type=bind",
+        "source=${localWorkspaceFolder}/../von-network,target=/workspaces/von-network,type=bind"
+        
+    ],
     "postCreateCommand": "bash ./.devcontainer/post-install.sh"
     
 }

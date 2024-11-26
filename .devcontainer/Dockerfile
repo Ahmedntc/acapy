@@ -2,6 +2,14 @@
 ARG VARIANT="3.12"
 FROM mcr.microsoft.com/devcontainers/python:${VARIANT}
 
+# Install Node.js (replace with your desired Node.js version)
+ARG NODE_VERSION="20"
+
+# Install Node.js and other dependencies
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm@latest
+
 ARG POETRY_VERSION="1.4"
 ENV POETRY_HOME="/opt/poetry" \
     POETRY_VERSION=${POETRY_VERSION}
