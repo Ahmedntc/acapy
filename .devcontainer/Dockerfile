@@ -8,7 +8,8 @@ ARG NODE_VERSION="20"
 # Install Node.js and other dependencies
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get install -y nodejs \
-    && npm install -g npm@latest
+    && npm install -g npm@latest \
+    && npm install -g react-scripts html5-qrcode
 
 ARG POETRY_VERSION="1.4"
 ENV POETRY_HOME="/opt/poetry" \

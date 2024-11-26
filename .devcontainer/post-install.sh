@@ -10,6 +10,11 @@ pip3 install -r demo/requirements.txt -r demo/requirements.behave.txt
 
 # install a version of acapy-agent so the pytests can pick up a version
 pip3 install acapy-agent
+# Install frontend dependencies
+
+cd /workspaces/frontend
+npm install react-scripts html5-qrcode
+yarn install
 
 # hack/workaround to allow `pytest .` and `poetry run pytest` work.
 # need to not run ruff...
